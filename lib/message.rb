@@ -8,6 +8,9 @@ class Message
   attr_accessor :speakingString, :echoString, :facePoint, :isFinished
   attr_reader :speakingStringMutex, :echoStringMutex, :facePointMutex, :isFinishedMutex
 
+  attr_accessor :rightLcdString, :leftLcdString, :motorCommand, :servoCommand, :ledCommand
+  attr_reader :rightLcdStringMutex, :leftLcdStringMutex, :motorCommandMutex, :servoCommandMutex, :ledCommandMutex
+
   def initialize
     @speakingString = Params::EndSpeaking
     @speakingStringMutex = Mutex.new

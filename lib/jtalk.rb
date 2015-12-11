@@ -27,7 +27,7 @@ class Jtalk
 
       isFinished = false
       @m.isFinishedMutex.synchronize{
-        isFinished = true if @m.isFinished
+        isFinished =  @m.isFinished
       }
       return if isFinished
       sleep 0.1

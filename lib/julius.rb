@@ -8,18 +8,18 @@ require_relative 'params'
 class Julius
   include Singleton
   def initialize
-    sleep 6
+    @m = Message.instance
     @soc = nil
     until @soc
       begin
         @soc = TCPSocket.open("localhost", 10500)
       rescue
         STDERR.puts "Julius に接続失敗しました\n再接続を試みます"
+        sleep 6
         retry
       end
     end
     STDERR.puts "Julius に接続しました"
-    puts @m.object_id
   end
 
   def start

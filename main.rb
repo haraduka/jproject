@@ -11,7 +11,7 @@ threadSystemJulius = Thread.new {
   system(
     'julius -C `echo $JPROJECT_ROOT`/external/julius-kits/dictation-kit-v4.3.1-linux/main.jconf \
     -C `echo $JPROJECT_ROOT`/external/julius-kits/dictation-kit-v4.3.1-linux/am-gmm.jconf \
-    -demo -module'
+    -demo -module -gprune beam'
   )
 }
 puts "# systemJulius initialized"

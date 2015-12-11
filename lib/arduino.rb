@@ -8,16 +8,17 @@ class Arduino
 
   def initialize
     @m = Message.instance
-    @sp = SerialPort.new("/dev/ttyACM0", 115200)
+    @sp = nil
     until @sp
       begin
         @sp = SerialPort.new("/dev/ttyACM0", 115200)
       rescue
         STDERR.puts "/dev/ttyACM0 に接続失敗しました\n再接続を試みます"
+        sleep 6
         retry
       end
     end
-    STDERR.puts "Julius に接続しました"
+    STDERR.puts "/dev/ttyACM0 に接続しました"
   end
 
   def start
