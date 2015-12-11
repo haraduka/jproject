@@ -4,6 +4,7 @@ require_relative 'lib/detect_face'
 require_relative 'lib/jtalk'
 require_relative 'lib/julius'
 require_relative 'lib/callback'
+require_relative 'lib/arduino'
 
 # juliusのmoduleスレッドの開始
 threadSystemJulius = Thread.new {
@@ -38,21 +39,16 @@ threadDetectFace = Thread.new{
 puts "# detectFace initialized"
 
 # mainCallbackのスレッド開始
-threadDetectFace = Thread.new{
+threadCallback = Thread.new{
   callback = Callback.instance
   callback.start
 }
 puts "# callback initialized"
 
-isFinished = false
-while !isFinished
-  Message.instance.isFinishedMutex.synchronize{
-    isFinished = Message.instance.isFinished
-  }
-  sleep 0.1
-end
+# arduinoのスレッド開始
+threadArduino = Thread.new{
+  arduino = Arduino.instance
+  arduino.start
+}
+puts "# arduino initialized"
 
-threadDetectFace.join
-threadJtalk.join
-threadJulius.join
-threadSystemJulius.join

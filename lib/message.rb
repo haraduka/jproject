@@ -17,5 +17,17 @@ class Message
     @facePointMutex = Mutex.new
     @isFinished = false
     @isFinishedMutex = Mutex.new
+
+    # arduinoに送るもの
+    @rightLcdString = Params::LCD::DEFAULT
+    @rightLcdStringMutex = Mutex.new
+    @leftLcdString = Params::LCD::DEFAULT
+    @leftLcdStringMutex = Mutex.new
+    @motorCommand = Params::Motor::FREE
+    @motorCommandMutex = Mutex.new
+    @servoCommand = Params::Servo::DOWN
+    @servoCommandMutex = Mutex.new
+    @ledCommand = Params::LED::NONE
+    @ledCommandMutex = Mutex.new
   end
 end

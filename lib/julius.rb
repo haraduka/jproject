@@ -19,7 +19,7 @@ class Julius
       end
     end
     STDERR.puts "Julius に接続しました"
-    @m = Message.instance
+    puts @m.object_id
   end
 
   def start
@@ -32,8 +32,8 @@ class Julius
           source.gsub!(/\.\n/, "")
           xml = Nokogiri(source)
           words = (xml/"RECOGOUT"/"SHYPO"/"WHYPO").inject("") {|ws, w| ws + w["WORD"] }
-          puts words
           unless words == ""
+            puts words
             echoString = ""
             speakingString = ""
             @m.speakingStringMutex.synchronize{

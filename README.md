@@ -8,3 +8,5 @@ lib : ライブラリ
 ## 使い方
 julius open-jtalkをinstallしてください
 export JPROJECT_ROOT=/home/hoge/hoge とこのディレクトリのrootを設定してください
+
+rackup config.ru　で実行出来ます

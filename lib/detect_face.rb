@@ -42,7 +42,7 @@ class DetectFace
         }
       end
       @window.show image if @isDisplay
-      if OpenCV::GUI::wait_key(100)
+      if OpenCV::GUI::wait_key(100) == 27
         @m.isFinishedMutex.synchronize{
           @m.isFinished = true
         }

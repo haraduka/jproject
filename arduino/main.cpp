@@ -338,7 +338,7 @@ void mainloop(void)
         //    turnOnLED(1);
         //else
         //    turnOffLED(1);
-        lightFCLED(c & 0x7);
+        lightFCLED(c);
         break;
     }
     }
