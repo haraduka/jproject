@@ -12,13 +12,14 @@ module Params
 
   module Motor
     KEEP = "keep"
-    GO = "g"
-    RIGHT = "r"
-    LEFT = "l"
-    FREE = "f"
+    GO = "go"
+    RIGHT = "right"
+    LEFT = "left"
+    FREE = "stop"
   end
 
   module Servo
+    PP = "pp"
     KEEP = "keep"
     UP = "\x00"
     DOWN = "\xFF"
