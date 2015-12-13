@@ -14,4 +14,4 @@ julius open-jtalkをinstallしてください
 export JPROJECT_ROOT=/home/hoge/hoge とこのディレクトリのrootを設定してください
 export JPROJECT_DEVELOPMENT=true or falseを設定してください
 
-rackup config.ru　で実行出来ます
+thin start　で実行出来ます
