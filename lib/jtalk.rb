@@ -16,9 +16,15 @@ class Jtalk
         echoString = @m.echoString
       }
       if echoString != Params::EndEcho
-        system(
-          "`echo $JPROJECT_ROOT`/script/jsay.sh #{echoString}"
-        )
+        if ENV['JPROJECT_DEVELOPMENT'] == "true"
+          system(
+            "`echo $JPROJECT_ROOT`/script/jsay.sh #{echoString}"
+          )
+        else
+          system(
+            "`echo $JPROJECT_ROOT`/external/aquestalkpi/AquesTalkPi #{echoString} | aplay"
+          )
+        end
         sleep 3
         @m.echoStringMutex.synchronize{
           @m.echoString = Params::EndEcho
