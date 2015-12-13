@@ -2,8 +2,12 @@
 自主プロジェクト用
 
 ## ディレクトリ構成
-external : MMDAgent_Example-1.4, hts_voice_nitech_jp_atr503_m001-1.05, open_jtalk-1.08, hts_engine_API-1.09, julius-kits入れた
+external : MMDAgent_Example-1.4, hts_voice_nitech_jp_atr503_m001-1.05, open_jtalk-1.08, hts_engine_API-1.09, julius-kitsを入れた
 lib : ライブラリ
+public : 静的
+views : erb-template
+arduino : arduino関係のプログラム
+script : script関係(utiliみたいなもの)
 
 ## 使い方
 julius open-jtalkをinstallしてください
