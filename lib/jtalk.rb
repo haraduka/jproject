@@ -25,7 +25,7 @@ class Jtalk
             "`echo $JPROJECT_ROOT`/external/aquestalkpi/AquesTalkPi #{echoString} | aplay"
           )
         end
-        sleep 3
+        sleep 2
         @m.echoStringMutex.synchronize{
           @m.echoString = Params::EndEcho
         }

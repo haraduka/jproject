@@ -11,6 +11,9 @@ class Application < Sinatra::Base
   end
 
   get '/' do
+    Message.instance.modeMutex.synchronize{
+      @mode = Message.instance.mode
+    }
     Message.instance.rightLcdStringMutex.synchronize{
       @rightLcdString = Message.instance.rightLcdString
     }
@@ -66,6 +69,21 @@ class Application < Sinatra::Base
     end
 
     erb :index
+  end
+
+  get '/mode/:action' do |a|
+    Message.instance.modeMutex.synchronize{
+      Message.instance.mode = a;
+    }
+    settings.myaction.push(["Mode -> #{a}", Time.now])
+    redirect '/'
+  end
+
+  get '/input' do
+    Message.instance.inputMutex.synchronize{
+      Message.instance.input = true;
+    }
+    redirect '/'
   end
 
   get '/motor/:action' do |a|

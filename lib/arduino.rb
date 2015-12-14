@@ -8,6 +8,8 @@ class Arduino
 
   def initialize
     @m = Message.instance
+    @servoCnt = 0
+    @motorCnt = 0
     @sp = nil
     until @sp
       begin
@@ -32,6 +34,9 @@ class Arduino
       when Params::LCD::KEEP
       when Params::LCD::DEFAULT
         @sp.write("rs" + " "*32)
+      when Params::LCD::SMILE
+      when Params::LCD::ANGRY
+      when Params::LCD::TSURAMI
       else
         @sp.write("rs")
         @sp.write(rightLcdString[0, 16].ljust(16, " "))
@@ -46,6 +51,9 @@ class Arduino
       when Params::LCD::KEEP
       when Params::LCD::DEFAULT
         @sp.write("ls" + " "*32)
+      when Params::LCD::SMILE
+      when Params::LCD::ANGRY
+      when Params::LCD::TSURAMI
       else
         @sp.write("ls")
         @sp.write(leftLcdString[0, 16].ljust(16, " "))
@@ -58,13 +66,26 @@ class Arduino
       }
       case motorCommand
       when Params::Motor::KEEP
+      when Params::Motor::PP
+        @servoCnt += 1
+        if @servoCnt % 4 == 1
+          if @servoCnt % 8 == 1
+            @sp.write("mr")
+          else
+            @sp.write("ml")
+          end
+        end
       when Params::Motor::FREE
+        @servoCnt = 0
         @sp.write("mf")
       when Params::Motor::GO
+        @servoCnt = 0
         @sp.write("mg")
       when Params::Motor::RIGHT
+        @servoCnt = 0
         @sp.write("mr")
       when Params::Motor::LEFT
+        @servoCnt = 0
         @sp.write("ml")
       end
       servoCommand = ""
@@ -74,11 +95,20 @@ class Arduino
       case servoCommand
       when Params::Servo::KEEP
       when Params::Servo::UP
+        @servoCnt = 0
         @sp.write("s#{Params::Servo::UP}")
       when Params::Servo::DOWN
+        @servoCnt = 0
         @sp.write("s#{Params::Servo::DOWN}")
       when Params::Servo::PP
-        @sp.write("s#{Params::Servo::PP}")
+        @servoCnt += 1
+        if @servoCnt % 6 == 1
+          if @servoCnt % 12 == 1
+            @sp.write("s#{Params::Servo::UP}")
+          else
+            @sp.write("s#{Params::Servo::DOWN}")
+          end
+        end
       end
 
       ledCommand = ""
@@ -97,7 +127,7 @@ class Arduino
         isFinished = @m.isFinished
       }
       return if isFinished
-      sleep 1
+      sleep 0.5
     end
   end
 

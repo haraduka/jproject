@@ -32,6 +32,7 @@ class Julius
           source.gsub!(/\.\n/, "")
           xml = Nokogiri(source)
           words = (xml/"RECOGOUT"/"SHYPO"/"WHYPO").inject("") {|ws, w| ws + w["WORD"] }
+          words.delete!("。")
           unless words == ""
             puts words
             echoString = ""

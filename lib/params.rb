@@ -4,15 +4,24 @@ module Params
   EndEcho = "EndEcho"
   EndTwitter = "EndTwitter"
 
+  module Mode
+    Echo = "echo"
+    Main = "main"
+    Presen = "presen"
+    News = "news"
+  end
+
   module LCD
     DEFAULT = "default"
     KEEP = "keep"
-    SMILE = "smile"
-    ANGRY = "angry"
+    SMILE = "smilesmilesmile"
+    ANGRY = "angryangryangry"
+    TSURAMI = "tsuramitsuramitsurami"
   end
 
   module Motor
     KEEP = "keep"
+    PP = "pp"
     GO = "go"
     RIGHT = "right"
     LEFT = "left"
