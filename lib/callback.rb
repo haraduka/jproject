@@ -1,30 +1,37 @@
 require_relative 'message'
 require_relative 'params'
+require_relative 'main_callback'
+require_relative 'echo_callback'
+require_relative 'presen_callback'
+require_relative 'news_callback'
 require 'singleton'
 
 class Callback
   include Singleton
   def initialize
     @m = Message.instance
+    @main = MainCallback.instance
+    @echo = EchoCallback.instance
+    @presen = PresenCallback.instance
+    @news = NewsCallback.instance
   end
 
   def start
     loop do
-      echoString = ""
-      speakingString = ""
-      @m.echoStringMutex.synchronize{
-        echoString = @m.echoString
+      mode = ""
+      @m.modeMutex.synchronize{
+        mode = @m.mode
       }
-      @m.speakingStringMutex.synchronize{
-        speakingString = @m.speakingString
-      }
-      if echoString == Params::EndEcho and speakingString != Params::EndSpeaking
-        @m.echoStringMutex.synchronize{
-          @m.echoString = speakingString
-        }
-        @m.speakingStringMutex.synchronize{
-          @m.speakingString = Params::EndSpeaking
-        }
+
+      case mode
+      when Params::Mode::Main
+        @main.start
+      when Params::Mode::Echo
+        @echo.start
+      when Params::Mode::Presen
+        @presen.start
+      when Params::Mode::News
+        @news.start
       end
 
       isFinished = false
@@ -32,7 +39,7 @@ class Callback
         isFinished = @m.isFinished
       }
       return if isFinished
-      sleep(0.1)
+      sleep 0.1
     end
   end
 end

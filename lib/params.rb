@@ -2,16 +2,26 @@
 module Params
   EndSpeaking = "EndSpeaking"
   EndEcho = "EndEcho"
+  EndTwitter = "EndTwitter"
+
+  module Mode
+    Echo = "echo"
+    Main = "main"
+    Presen = "presen"
+    News = "news"
+  end
 
   module LCD
     DEFAULT = "default"
     KEEP = "keep"
-    SMILE = "smile"
-    ANGRY = "angry"
+    SMILE = "smilesmilesmile"
+    ANGRY = "angryangryangry"
+    TSURAMI = "tsuramitsuramitsurami"
   end
 
   module Motor
     KEEP = "keep"
+    PP = "pp"
     GO = "go"
     RIGHT = "right"
     LEFT = "left"
@@ -19,21 +29,21 @@ module Params
   end
 
   module Servo
-    PP = "pp"
+    PP = "p"
     KEEP = "keep"
-    UP = "\x00"
-    DOWN = "\xFF"
+    UP = 'u'
+    DOWN = 'd'
   end
 
   module LED
     KEEP = "keep"
-    NONE = 0
-    GREEN = 1
-    SKYBLUE = 2
-    BLUE = 3
-    PURPLE = 4
-    RED = 5
-    YELLOW = 6
-    WHITE = 7
+    NONE = 'n'
+    GREEN = 'g'
+    SKYBLUE = 's'
+    BLUE = 'b'
+    PURPLE = 'p'
+    RED = 'r'
+    YELLOW = 'y'
+    WHITE = 'w'
   end
 end

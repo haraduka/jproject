@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'erb'
+require 'tilt/erb'
 require 'sinatra/reloader'
 require_relative 'lib/message'
 require_relative 'lib/params'
@@ -11,6 +11,9 @@ class Application < Sinatra::Base
   end
 
   get '/' do
+    Message.instance.modeMutex.synchronize{
+      @mode = Message.instance.mode
+    }
     Message.instance.rightLcdStringMutex.synchronize{
       @rightLcdString = Message.instance.rightLcdString
     }
@@ -57,11 +60,30 @@ class Application < Sinatra::Base
       @ledCommand = "SKYBLUE"
     end
 
+    Message.instance.tlmapMutex.synchronize{
+      @twitter = Message.instance.tlmap
+    }
+
     while settings.myaction.size > 5
       settings.myaction.shift(1)
     end
 
     erb :index
+  end
+
+  get '/mode/:action' do |a|
+    Message.instance.modeMutex.synchronize{
+      Message.instance.mode = a;
+    }
+    settings.myaction.push(["Mode -> #{a}", Time.now])
+    redirect '/'
+  end
+
+  get '/input' do
+    Message.instance.inputMutex.synchronize{
+      Message.instance.input = true;
+    }
+    redirect '/'
   end
 
   get '/motor/:action' do |a|

@@ -5,6 +5,7 @@ require_relative 'lib/jtalk'
 require_relative 'lib/julius'
 require_relative 'lib/callback'
 require_relative 'lib/arduino'
+require_relative 'lib/twitter'
 
 # juliusのmoduleスレッドの開始
 threadSystemJulius = Thread.new {
@@ -31,12 +32,16 @@ threadJulius = Thread.new {
 puts "# julius initialized"
 
 # detectFaceのスレッド開始
-threadDetectFace = Thread.new{
-  detect = DetectFace.instance
-  detect.init true
-  detect.start
-}
-puts "# detectFace initialized"
+#threadDetectFace = Thread.new{
+#  detect = DetectFace.instance
+#  if ENV['JPROJECT_DEVELOPMENT'] == "true"
+#    detect.init false
+#  else
+#    detect.init true
+#  end
+#  detect.start
+#}
+#puts "# detectFace initialized"
 
 # mainCallbackのスレッド開始
 threadCallback = Thread.new{
@@ -46,9 +51,15 @@ threadCallback = Thread.new{
 puts "# callback initialized"
 
 # arduinoのスレッド開始
-threadArduino = Thread.new{
-  arduino = Arduino.instance
-  arduino.start
-}
-puts "# arduino initialized"
+#threadArduino = Thread.new{
+#  arduino = Arduino.instance
+#  arduino.start
+#}
+#puts "# arduino initialized"
 
+#twitterのスレッド開始
+threadTwitter = Thread.new{
+  twitter = Streaming.instance
+  twitter.start
+}
+puts "# twitter initialized"

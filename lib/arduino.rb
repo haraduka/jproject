@@ -8,10 +8,12 @@ class Arduino
 
   def initialize
     @m = Message.instance
+    @servoCnt = 0
+    @motorCnt = 0
     @sp = nil
     until @sp
       begin
-        @sp = SerialPort.new("/dev/ttyACM0", 115200)
+        @sp = SerialPort.new("/dev/ttyACM0", 9600)
       rescue
         STDERR.puts "/dev/ttyACM0 に接続失敗しました\n再接続を試みます"
         sleep 6
@@ -22,6 +24,7 @@ class Arduino
   end
 
   def start
+    sleep 5
     loop do
       rightLcdString = ""
       @m.rightLcdStringMutex.synchronize{
@@ -30,11 +33,14 @@ class Arduino
       case rightLcdString
       when Params::LCD::KEEP
       when Params::LCD::DEFAULT
-        print "hoge"
+        @sp.write("rs" + " "*32)
+      when Params::LCD::SMILE
+      when Params::LCD::ANGRY
+      when Params::LCD::TSURAMI
       else
-        @sp.write("r")
-        @sp.write(rightLcdString.ljust(16, " "))
-        @sp.write(rightLcdString[16, 16] ? rightLcdString[16, 32].ljust(16, " ") : " "*16)
+        @sp.write("rs")
+        @sp.write(rightLcdString[0, 16].ljust(16, " "))
+        @sp.write(rightLcdString[16, 16] ? rightLcdString[16, 16].ljust(16, " ") : " "*16)
       end
 
       leftLcdString = ""
@@ -44,11 +50,14 @@ class Arduino
       case leftLcdString
       when Params::LCD::KEEP
       when Params::LCD::DEFAULT
-        print "hoge"
+        @sp.write("ls" + " "*32)
+      when Params::LCD::SMILE
+      when Params::LCD::ANGRY
+      when Params::LCD::TSURAMI
       else
-        @sp.write("r")
-        @sp.write(leftLcdString.ljust(16, " "))
-        @sp.write(leftLcdString[16, 16] ? leftLcdString[16, 32].ljust(16, " ") : " "*16)
+        @sp.write("ls")
+        @sp.write(leftLcdString[0, 16].ljust(16, " "))
+        @sp.write(leftLcdString[16, 16] ? leftLcdString[16, 16].ljust(16, " ") : " "*16)
       end
 
       motorCommand = ""
@@ -57,13 +66,26 @@ class Arduino
       }
       case motorCommand
       when Params::Motor::KEEP
+      when Params::Motor::PP
+        @servoCnt += 1
+        if @servoCnt % 4 == 1
+          if @servoCnt % 8 == 1
+            @sp.write("mr")
+          else
+            @sp.write("ml")
+          end
+        end
       when Params::Motor::FREE
+        @servoCnt = 0
         @sp.write("mf")
       when Params::Motor::GO
+        @servoCnt = 0
         @sp.write("mg")
       when Params::Motor::RIGHT
+        @servoCnt = 0
         @sp.write("mr")
       when Params::Motor::LEFT
+        @servoCnt = 0
         @sp.write("ml")
       end
       servoCommand = ""
@@ -73,9 +95,20 @@ class Arduino
       case servoCommand
       when Params::Servo::KEEP
       when Params::Servo::UP
+        @servoCnt = 0
         @sp.write("s#{Params::Servo::UP}")
       when Params::Servo::DOWN
+        @servoCnt = 0
         @sp.write("s#{Params::Servo::DOWN}")
+      when Params::Servo::PP
+        @servoCnt += 1
+        if @servoCnt % 6 == 1
+          if @servoCnt % 12 == 1
+            @sp.write("s#{Params::Servo::UP}")
+          else
+            @sp.write("s#{Params::Servo::DOWN}")
+          end
+        end
       end
 
       ledCommand = ""
@@ -85,6 +118,7 @@ class Arduino
       case ledCommand
         when Params::LED::KEEP
         else
+          @sp.write("e")
           @sp.write(ledCommand)
       end
 
@@ -93,7 +127,7 @@ class Arduino
         isFinished = @m.isFinished
       }
       return if isFinished
-      sleep 0.1
+      sleep 0.5
     end
   end
 
