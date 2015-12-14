@@ -13,19 +13,19 @@ const int ADC_SIG[2] = {0, 1};
 
 //full color LED
 const int FC_LED_RED = 16;
-const int FC_LED_BLUE = 17;
-const int FC_LED_GREEN = 18;
+const int FC_LED_BLUE = 18;
+const int FC_LED_GREEN = 17;
 
-enum {
-    NONE = 0,
-    GREEN,
-    SKYBLUE,
-    BLUE,
-    PURPLE,
-    RED,
-    YELLOW,
-    WHITE,
-} LEDColor;
+
+const char NONE = 'n';
+const char GREEN = 'g';
+const char SKYBLUE = 's';
+const char BLUE = 'b';
+const char PURPLE = 'p';
+const char RED = 'r';
+const char YELLOW = 'y';
+const char WHITE = 'w';
+
 
 //motor
 const int MOTOR_VREF[2] = {3, 6};
@@ -86,44 +86,44 @@ void lightFCLED(int c)
 {
     switch (c) {
     case NONE:
-        digitalWrite(FC_LED_RED, LOW);
-        digitalWrite(FC_LED_BLUE, LOW);
-        digitalWrite(FC_LED_GREEN, LOW);
+        digitalWrite(FC_LED_RED, HIGH);
+        digitalWrite(FC_LED_BLUE, HIGH);
+        digitalWrite(FC_LED_GREEN, HIGH);
         break;
     case GREEN:
-        digitalWrite(FC_LED_RED, LOW);
-        digitalWrite(FC_LED_BLUE, LOW);
-        digitalWrite(FC_LED_GREEN, HIGH);
+        digitalWrite(FC_LED_RED, HIGH);
+        digitalWrite(FC_LED_BLUE, HIGH);
+        digitalWrite(FC_LED_GREEN, LOW);
         break;
     case YELLOW:
-        digitalWrite(FC_LED_RED, HIGH);
-        digitalWrite(FC_LED_BLUE, LOW);
-        digitalWrite(FC_LED_GREEN, HIGH);
-        break;
-    case BLUE:
         digitalWrite(FC_LED_RED, LOW);
         digitalWrite(FC_LED_BLUE, HIGH);
         digitalWrite(FC_LED_GREEN, LOW);
         break;
-    case PURPLE:
-        digitalWrite(FC_LED_RED, HIGH);
-        digitalWrite(FC_LED_BLUE, HIGH);
-        digitalWrite(FC_LED_GREEN, LOW);
-        break;
-    case RED:
+    case BLUE:
         digitalWrite(FC_LED_RED, HIGH);
         digitalWrite(FC_LED_BLUE, LOW);
-        digitalWrite(FC_LED_GREEN, LOW);
+        digitalWrite(FC_LED_GREEN, HIGH);
+        break;
+    case PURPLE:
+        digitalWrite(FC_LED_RED, LOW);
+        digitalWrite(FC_LED_BLUE, LOW);
+        digitalWrite(FC_LED_GREEN, HIGH);
+        break;
+    case RED:
+        digitalWrite(FC_LED_RED, LOW);
+        digitalWrite(FC_LED_BLUE, HIGH);
+        digitalWrite(FC_LED_GREEN, HIGH);
         break;
     case SKYBLUE:
         digitalWrite(FC_LED_RED, HIGH);
         digitalWrite(FC_LED_BLUE, LOW);
-        digitalWrite(FC_LED_GREEN, HIGH);
+        digitalWrite(FC_LED_GREEN, LOW);
         break;
     case WHITE:
-        digitalWrite(FC_LED_RED, HIGH);
-        digitalWrite(FC_LED_BLUE, HIGH);
-        digitalWrite(FC_LED_GREEN, HIGH);
+        digitalWrite(FC_LED_RED, LOW);
+        digitalWrite(FC_LED_BLUE, LOW);
+        digitalWrite(FC_LED_GREEN, LOW);
         break;
     }
     return;
@@ -326,8 +326,11 @@ void mainloop(void)
         break;
     }
     case 's': {
-        moveServo(c);
-        break;
+      if(c == 'u')
+        moveServo(179);
+      else if(c == 'd')
+        moveServo(30);
+      break;
     }
     case 'e': {
         //if ((c >> 3) & 1)
