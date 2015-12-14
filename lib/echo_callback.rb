@@ -2,7 +2,7 @@ require_relative 'message'
 require_relative 'params'
 require 'singleton'
 
-class Callback
+class EchoCallback
   include Singleton
   def initialize
     @m = Message.instance

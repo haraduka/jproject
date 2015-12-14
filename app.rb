@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'erb'
+require 'tilt/erb'
 require 'sinatra/reloader'
 require_relative 'lib/message'
 require_relative 'lib/params'
@@ -56,6 +56,10 @@ class Application < Sinatra::Base
     when Params::LED::SKYBLUE
       @ledCommand = "SKYBLUE"
     end
+
+    Message.instance.tlmapMutex.synchronize{
+      @twitter = Message.instance.tlmap
+    }
 
     while settings.myaction.size > 5
       settings.myaction.shift(1)
