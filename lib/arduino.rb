@@ -11,16 +11,22 @@ class Arduino
     @servoCnt = 0
     @motorCnt = 0
     @sp = nil
+    port_number = 0
     until @sp
       begin
-        @sp = SerialPort.new("/dev/ttyACM1", 9600)
+        @sp = SerialPort.new("/dev/ttyACM#{port_number}", 9600)
       rescue
-        STDERR.puts "/dev/ttyACM0 に接続失敗しました\n再接続を試みます"
+        STDERR.puts "/dev/ttyACM#{port_number}に接続失敗しました\n再接続を試みます"
+        if port_number == 0
+          port_number = 1
+        else
+          port_number = 0
+        end
         sleep 6
         retry
       end
     end
-    STDERR.puts "/dev/ttyACM0 に接続しました"
+    STDERR.puts "/dev/ttyACM#{port_number} に接続しました"
   end
 
   def start
