@@ -51,11 +51,11 @@ threadCallback = Thread.new{
 puts "# callback initialized"
 
 # arduinoのスレッド開始
-#threadArduino = Thread.new{
-#  arduino = Arduino.instance
-#  arduino.start
-#}
-#puts "# arduino initialized"
+threadArduino = Thread.new{
+  arduino = Arduino.instance
+  arduino.start
+}
+puts "# arduino initialized"
 
 #twitterのスレッド開始
 threadTwitter = Thread.new{

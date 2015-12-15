@@ -13,7 +13,7 @@ class Arduino
     @sp = nil
     until @sp
       begin
-        @sp = SerialPort.new("/dev/ttyACM0", 9600)
+        @sp = SerialPort.new("/dev/ttyACM1", 9600)
       rescue
         STDERR.puts "/dev/ttyACM0 に接続失敗しました\n再接続を試みます"
         sleep 6
@@ -67,27 +67,28 @@ class Arduino
       case motorCommand
       when Params::Motor::KEEP
       when Params::Motor::PP
-        @servoCnt += 1
-        if @servoCnt % 4 == 1
-          if @servoCnt % 8 == 1
+        @motorCnt += 1
+        if @motorCnt % 3 == 1
+          if @motorCnt % 6 == 1
             @sp.write("mr")
           else
             @sp.write("ml")
           end
         end
       when Params::Motor::FREE
-        @servoCnt = 0
+        @motorCnt = 0
         @sp.write("mf")
       when Params::Motor::GO
-        @servoCnt = 0
+        @motorCnt = 0
         @sp.write("mg")
       when Params::Motor::RIGHT
-        @servoCnt = 0
+        @motorCnt = 0
         @sp.write("mr")
       when Params::Motor::LEFT
-        @servoCnt = 0
+        @motorCnt = 0
         @sp.write("ml")
       end
+
       servoCommand = ""
       @m.servoCommandMutex.synchronize{
         servoCommand = @m.servoCommand
@@ -102,8 +103,8 @@ class Arduino
         @sp.write("s#{Params::Servo::DOWN}")
       when Params::Servo::PP
         @servoCnt += 1
-        if @servoCnt % 6 == 1
-          if @servoCnt % 12 == 1
+        if @servoCnt % 3 == 1
+          if @servoCnt % 6 == 1
             @sp.write("s#{Params::Servo::UP}")
           else
             @sp.write("s#{Params::Servo::DOWN}")

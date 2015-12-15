@@ -99,8 +99,8 @@ class Application < Sinatra::Base
     when "up"
        @servoCommand = Params::Servo::UP
     when "down"
-       @servoCommand = Params::Servo::DOWN
-     when "pp"
+      @servoCommand = Params::Servo::DOWN
+    when "pp"
       @servoCommand = Params::Servo::PP
     end
     Message.instance.servoCommandMutex.synchronize{
