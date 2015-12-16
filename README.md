@@ -13,5 +13,7 @@
 * julius open-jtalkをinstallしてください
 * export JPROJECT_ROOT=/home/hoge/hoge とこのディレクトリのrootを設定してください
 * export JPROJECT_DEVELOPMENT="true" or "false"を設定してください
+* 音量をmaxにしてください
+* /dev/ttyACMの番号,arecord -l, aplay -lの結果にも十分注意
 
 * thin start　で実行出来ます
