@@ -329,7 +329,7 @@ void mainloop(void)
       if(c == 'u')
         moveServo(179);
       else if(c == 'd')
-        moveServo(30);
+        moveServo(80);
       break;
     }
     case 'e': {
@@ -352,7 +352,7 @@ void loop()
     controlMotor();
     if (Serial.available() > 0) {
         unsigned char c = Serial.read();
-        Serial.write(c);
+        //Serial.write(c);
         if (mode == 'n') {
             switch (c) {
             case 'l':
@@ -387,11 +387,11 @@ void loop()
             modecnt++;
         }
         if (modecnt == modecntlim) {
-            Serial.write("\n");
-            Serial.write(mode);
-            Serial.write(" : ");
-            Serial.write(buffer);
-            Serial.write("\n");
+            //Serial.write("\n");
+            //Serial.write(mode);
+            //Serial.write(" : ");
+            //Serial.write(buffer);
+            //Serial.write("\n");
             mainloop();
             mode = 'n';
             modecnt = -1;
@@ -400,3 +400,4 @@ void loop()
         }
     }
 }
+
