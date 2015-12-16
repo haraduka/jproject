@@ -7,7 +7,11 @@ class DetectFace
 
   def initialize
     @capture = OpenCV::CvCapture.open
-    @detector = OpenCV::CvHaarClassifierCascade::load "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml"
+    if ENV['JPROJECT_DEVELOPMENT'] == "true"
+      @detector = OpenCV::CvHaarClassifierCascade::load "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml"
+    else
+      @detector = OpenCV::CvHaarClassifierCascade::load "/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml"
+    end
     @m = Message.instance
     @isDisplay = true
   end
@@ -53,7 +57,7 @@ class DetectFace
         isFinished = @m.isFinished
       }
       return if isFinished
-      sleep 0.1
+      sleep 0.3
     end
   end
 
