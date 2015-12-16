@@ -23,18 +23,18 @@ class Julius
   end
 
   def start
-    source = ""
+    source = ''
     while true
       ret = IO.select([@soc])
       ret[0].each do |sock|
         source += sock.recv(65535)
-        if source[-2..source.size] == ".\n"
-          source.gsub!(/\.\n/, "")
+        if /(<RECOGOUT>.*<\/RECOGOUT>)/.match(source.encode("UTF-8", "EUC-JP").gsub(/\n/, ""))
+          source = /(<RECOGOUT>.*<\/RECOGOUT>)/.match(source.encode("UTF-8", "EUC-JP").gsub!(/\.\n/, "").gsub(/\n/, ""))[1]
           xml = Nokogiri(source)
           words = (xml/"RECOGOUT"/"SHYPO"/"WHYPO").inject("") {|ws, w| ws + w["WORD"] }
           words.delete!("。")
           unless words == ""
-            puts words
+            p words
             echoString = ""
             speakingString = ""
             @m.speakingStringMutex.synchronize{
@@ -49,7 +49,7 @@ class Julius
               }
             end
           end
-          source = ""
+          source = ''
         end
       end
       isFinished = false
