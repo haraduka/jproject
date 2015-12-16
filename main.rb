@@ -32,16 +32,16 @@ threadJulius = Thread.new {
 puts "# julius initialized"
 
 # detectFaceのスレッド開始
-#threadDetectFace = Thread.new{
-#  detect = DetectFace.instance
-#  if ENV['JPROJECT_DEVELOPMENT'] == "true"
-#    detect.init false
-#  else
-#    detect.init true
-#  end
-#  detect.start
-#}
-#puts "# detectFace initialized"
+threadDetectFace = Thread.new{
+  detect = DetectFace.instance
+  if ENV['JPROJECT_DEVELOPMENT'] == "true"
+    detect.init true
+  else
+    detect.init false
+  end
+  detect.start
+}
+puts "# detectFace initialized"
 
 # mainCallbackのスレッド開始
 threadCallback = Thread.new{

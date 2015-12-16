@@ -6,7 +6,6 @@ class DetectFace
   include Singleton
 
   def initialize
-    @window = OpenCV::GUI::Window.new "face detect"
     @capture = OpenCV::CvCapture.open
     @detector = OpenCV::CvHaarClassifierCascade::load "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml"
     @m = Message.instance
@@ -18,6 +17,7 @@ class DetectFace
   end
 
   def start
+    @window = OpenCV::GUI::Window.new "face detect" if @isDisplay
     loop do
       image = @capture.query
       image = image.resize OpenCV::CvSize.new 160, 120
