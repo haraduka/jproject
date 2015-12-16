@@ -13,7 +13,7 @@ class Arduino
     @sp = nil
     until @sp
       begin
-        @sp = SerialPort.new("/dev/ttyACM1", 9600)
+        @sp = SerialPort.new("/dev/ttyACM0", 9600)
       rescue
         STDERR.puts "/dev/ttyACMに接続失敗しました\n再接続を試みます"
         sleep 6
