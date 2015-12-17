@@ -32,12 +32,8 @@ class PresenCallback
     #プレゼンの内容を書きましょう
     wait
     speak("こんにちは。ハロです。今日は自主プロジェクトの発表を見に来てくれてありがとう")
-    puts "unko1"
     wait
-    puts "unko2"
     speak("それではハロの中身を紹介するよ")
-    puts "unko3"
-
 
     @m.modeMutex.synchronize{
       @m.mode = Params::Mode::Main
