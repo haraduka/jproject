@@ -59,5 +59,6 @@ puts "# arduino initialized"
 threadTwitter = Thread.new{
   twitter = Streaming.instance
   twitter.start
+  twitter.tweetStart
 }
 puts "# twitter initialized"

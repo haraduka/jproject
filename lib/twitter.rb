@@ -21,6 +21,22 @@ class Streaming
       config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
     end
     @m = Message.instance
+    @screen_name = @main_client.user.screen_name
+  end
+
+  def tweetStart()
+    oldEchoString = ""
+    loop do
+      echoString = ""
+      @m.echoStringMutex.synchronize{
+        echoString = @m.echoString
+      }
+      if echoString != Params::EndEcho and echoString != oldEchoString
+        @main_client.update echoString
+        oldEchoString = echoString
+      end
+      sleep 1
+    end
   end
 
   def start()
@@ -28,19 +44,23 @@ class Streaming
       begin
         case object
         when Twitter::Tweet
-          @m.twitterStringMutex.synchronize{
-            twitterString = @m.twitterString
-            if twitterString == Params::EndTwitter
-              @m.twitterString = object.text
-            end
-          }
-          @m.tlmapMutex.synchronize{
-            @m.tlmap.push(object.text)
-            while @m.tlmap.size > 5
-              @m.tlmap.shift(1)
-            end
-          }
-        else
+          text = object.text
+          if /@#{@screen_name}.+/ === text
+            str = /@#{@screen_name}(.+)/.match(text)[1]
+            @m.twitterStringMutex.synchronize{
+              twitterString = @m.twitterString
+              if twitterString == Params::EndTwitter
+                @m.twitterString = str
+              end
+            }
+            @m.tlmapMutex.synchronize{
+              @m.tlmap.push(str)
+              while @m.tlmap.size > 5
+                @m.tlmap.shift(1)
+              end
+            }
+          else
+          end
         end
       rescue Twitter::Error::TooManyRequests => e
         # this error happen 5 mins when you send about 5 ~ 10 requests in a few minutes
