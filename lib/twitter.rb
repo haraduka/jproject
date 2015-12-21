@@ -24,16 +24,15 @@ class Streaming
     @screen_name = @main_client.user.screen_name
   end
 
+  # echoしたものをtweetする
   def tweetStart()
-    oldEchoString = ""
     loop do
       echoString = ""
       @m.echoStringMutex.synchronize{
         echoString = @m.echoString
       }
-      if echoString != Params::EndEcho and echoString != oldEchoString
+      if echoString != Params::EndEcho
         @main_client.update echoString
-        oldEchoString = echoString
       end
       sleep 1
     end
@@ -45,18 +44,18 @@ class Streaming
         case object
         when Twitter::Tweet
           text = object.text
+          @m.tlmapMutex.synchronize{
+            @m.tlmap.push(text)
+            while @m.tlmap.size > 5
+              @m.tlmap.shift(1)
+            end
+          }
           if /@#{@screen_name}.+/ === text
             str = /@#{@screen_name}(.+)/.match(text)[1]
             @m.twitterStringMutex.synchronize{
               twitterString = @m.twitterString
               if twitterString == Params::EndTwitter
                 @m.twitterString = str
-              end
-            }
-            @m.tlmapMutex.synchronize{
-              @m.tlmap.push(str)
-              while @m.tlmap.size > 5
-                @m.tlmap.shift(1)
               end
             }
           else
@@ -81,6 +80,6 @@ class Streaming
       isFinished = @m.isFinished
     }
     return if isFinished
-    sleep(0.1)
+    sleep 0.1
   end
 end

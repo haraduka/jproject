@@ -130,6 +130,7 @@
             <button type="button" class="btn btn-info"><a class="white" href="/motor/left"> Left </a></button>
             <button type="button" class="btn btn-warning"><a class="white" href="/motor/right"> Right</a></button>
             <button type="button" class="btn btn-danger"><a class="white" href="/motor/stop"> stop </a></button>
+            <button type="button" class="btn btn-theme02"><a class="white" href="/motor/pp"> ﾊﾟﾀﾊﾟﾀ </a></button>
           </div><!-- /showback -->
 
           <! -- BUTTONS ROUND -->
@@ -171,6 +172,13 @@
             <form action="/echo" method="post">
               <input type="text" class="form-control" name="echoString">
               <span class="help-block"> <%= @echoString %> </span>
+            </form>
+          </div><!-- /showback -->
+          <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Speaking String Control ( Japanese OK )</h4>
+            <form action="/speaking" method="post">
+              <input type="text" class="form-control" name="speakingString">
+              <span class="help-block"> <%= @speakingString %> </span>
             </form>
           </div><!-- /showback -->
         </div>

@@ -1,6 +1,7 @@
 require_relative 'message'
 require_relative 'params'
 require 'singleton'
+require_relative 'net_api'
 
 class MainCallback
   include Singleton
@@ -99,6 +100,15 @@ class MainCallback
       when /だね$/xi
         mth = text.match(/(.+)だね/)
         shouldEcho = mth[1] + "だよ"
+      when /東京の天気/xi
+        weather = NetAPI.instance.getWeatherTokyo
+        shouldEcho = weather[0]
+        @m.leftLcdStringMutex.synchronize{
+          @m.leftLcdString = weather[1]
+        }
+        @m.rightLcdStringMutex.synchronize{
+          @m.rightLcdString = "weather news!"
+        }
       else
         shouldEcho = text
       end

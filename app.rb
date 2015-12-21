@@ -26,6 +26,12 @@ class Application < Sinatra::Base
     Message.instance.servoCommandMutex.synchronize{
       @servoCommand = Message.instance.servoCommand
     }
+    Message.instance.echoStringMutex.synchronize{
+      @echoString = Message.instance.echoString
+    }
+    Message.instance.speakingStringMutex.synchronize{
+      @speakingString = Message.instance.speakingString
+    }
     case @servoCommand
     when Params::Servo::UP
        @servoCommand = "UP"
@@ -160,6 +166,14 @@ class Application < Sinatra::Base
       Message.instance.echoString = @params[:echoString]
     }
     settings.myaction.push(["echo -> #{@params[:echoString]}", Time.now])
+    redirect '/'
+  end
+
+  post '/speaking' do
+    Message.instance.speakingStringMutex.synchronize{
+      Message.instance.speakingString = @params[:speakingString]
+    }
+    settings.myaction.push(["echo -> #{@params[:speakingString]}", Time.now])
     redirect '/'
   end
 
