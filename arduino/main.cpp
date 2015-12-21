@@ -182,7 +182,7 @@ void moveMotor(int c)
     } else if (getADC(1) > 15) {
         c = RIGHT;
     }
-    const int POWER = 255;
+    const int POWER = 100;
     switch (c) {
     case GO:
         digitalWrite(MOTOR_IN1[0], HIGH);
@@ -292,18 +292,54 @@ void mainloop(void)
                 LCDL.drawStr(0, 40, buf1);
                 LCDL.drawStr(0, 60, buf2);
             } while (LCDL.nextPage());
-        }
-        break;
+        } else if (c == 'a') {
+            LCDL.firstPage();
+            do {
+                LCDL.drawStr(0, 40, buf1);
+                LCDL.drawStr(0, 60, buf2);
+            } while (LCDL.nextPage());
+        } else if (c == 'm') {
+        } else if (c == 't') {
+        } else if (c == 'e') {
+            LCDL.firstPage();
+            do {
+                for (int i = 0; i < 7; i++) {
+                    LCDL.drawLine(i * 20, 16, i * 20 + 10, 64);
+                    LCDL.drawLine(i * 20+1, 16, i * 20 + 11, 64);
+                    LCDL.drawLine(i * 20+ 2, 16, i * 20 + 12, 64);
+                }
+            } while (LCDL.nextPage());
+  
+      }
+      break;
     }
     case 'r': {
-        if (c = 's') {
+        if (c == 's') {
             LCDR.firstPage();
             do {
                 LCDR.drawStr(0, 40, buf1);
                 LCDR.drawStr(0, 60, buf2);
             } while (LCDR.nextPage());
-        }
-        break;
+        } else if (c == 'a') {
+            LCDR.firstPage();
+            do {
+                LCDR.drawStr(0, 40, buf1);
+                LCDR.drawStr(0, 60, buf2);
+            } while (LCDR.nextPage());
+        } else if (c == 'm') {
+        } else if (c == 't') {
+        } else if (c == 'e') {
+            LCDR.firstPage();
+            do {
+                for (int i = 0; i < 7; i++) {
+                    LCDR.drawLine(i * 20, 0, i * 20 + 10, 64);
+                    LCDR.drawLine(i * 20 + 1, 0, i * 20 + 11, 64);
+                    LCDR.drawLine(i * 20 + 2, 0, i * 20 + 12, 64);
+                }
+            } while (LCDR.nextPage());
+  
+      }
+      break;
     }
     case 'm': {
         switch (c) {

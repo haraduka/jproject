@@ -48,6 +48,17 @@ class MainCallback
         @m.motorCommandMutex.synchronize{
           @m.motorCommand = Params::Motor::FREE
         }
+      when /大好き/xi
+        shouldEcho = "恥ずかしいです"
+        @m.rightLcdStringMutex.synchronize{
+          @m.rightLcdString = Params::LCD::ENBARRASSED
+        }
+        @m.leftLcdStringMutex.synchronize{
+          @m.leftLcdString = Params::LCD::EMBARRASSED
+        }
+        @m.servoCommandMutex.synchronize{
+          @m.servoCommand = Params::Servo::DOWN
+        }
       when /楽しいね|嬉しいね|最高だね/xi
         shouldEcho = "ハロも" + text.delete("だね")
         @m.rightLcdStringMutex.synchronize{

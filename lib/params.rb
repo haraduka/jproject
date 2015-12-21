@@ -17,6 +17,7 @@ module Params
     SMILE = "smilesmilesmile"
     ANGRY = "angryangryangry"
     TSURAMI = "tsuramitsuramitsurami"
+    EMBARRASSED = "hazukashi"
   end
 
   module Motor

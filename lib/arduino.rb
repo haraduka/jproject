@@ -35,8 +35,13 @@ class Arduino
       when Params::LCD::DEFAULT
         @sp.write("rs" + " "*32)
       when Params::LCD::SMILE
+        @sp.write("rm" + " "*32)
       when Params::LCD::ANGRY
+        @sp.write("ra" + " "*32)
       when Params::LCD::TSURAMI
+        @sp.write("rt" + " "*32)
+      when Params::LCD::EMBARRASSED
+        @sp.write("re" + " "*32)
       else
         @sp.write("rs")
         @sp.write(rightLcdString[0, 16].ljust(16, " "))
@@ -52,8 +57,13 @@ class Arduino
       when Params::LCD::DEFAULT
         @sp.write("ls" + " "*32)
       when Params::LCD::SMILE
+        @sp.write("lm" + " "*32)
       when Params::LCD::ANGRY
+        @sp.write("la" + " "*32)
       when Params::LCD::TSURAMI
+        @sp.write("lt" + " "*32)
+      when Params::LCD::EMBARRASSED
+        @sp.write("le" + " "*32)
       else
         @sp.write("ls")
         @sp.write(leftLcdString[0, 16].ljust(16, " "))
