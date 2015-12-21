@@ -81,8 +81,9 @@ class Arduino
         if @motorCnt == 20
           @motorCnt = 0
           @m.motorCommandMutex.synchronize{
-            @m.motorCommand = Params::Motor::DOWN
+            @m.motorCommand = Params::Motor::FREE
           }
+          @sp.write("mf")
         end
         if @motorCnt % 3 == 1
           if @motorCnt % 6 == 1
@@ -124,6 +125,7 @@ class Arduino
           @m.servoCommandMutex.synchronize{
             @m.servoCommand = Params::Servo::DOWN
           }
+          @sp.write("s#{Params::Servo::DOWN}")
         end
         if @servoCnt % 3 == 1
           if @servoCnt % 6 == 1

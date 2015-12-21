@@ -22,7 +22,7 @@ class Jtalk
           )
         else
           system(
-            "`echo $JPROJECT_ROOT`/external/aquestalkpi/AquesTalkPi #{echoString} -o sample.wav | aplay -Dhw:0,0 sample.wav"
+            "`echo $JPROJECT_ROOT`/external/aquestalkpi/AquesTalkPi #{echoString} -o sample.wav | aplay -Dhw:1,0 sample.wav"
           )
         end
         sleep 2
